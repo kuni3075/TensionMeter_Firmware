@@ -35,7 +35,7 @@ void BaseReset() {
 void ProofreadUpdate() {
   double num, num1;
   String str;
-  char str1[20] = {0};
+  char str1[30] = {0};
 
   for (char i = 2; i < RxCnt; i++) {
     str.concat((String)(RxBuff[i]));
@@ -45,8 +45,8 @@ void ProofreadUpdate() {
   EEPROM.put(EEPROM_PROOFREAD, num);
   EEPROM.commit();
 
-  SerialBT.print("Proofread Update:");
-  Serial.print("Proofread Update:");
+  SerialBT.println("Proofread Update");
+  Serial.println("Proofread Update");
   dtostrf(num, 9, 8, str1);
   SerialBT.println(str1);
   Serial.println(str1);
