@@ -15,15 +15,22 @@ void HX711_RX() {
 void BaseReset() {
   SerialBT.println("Base Update");
   Serial.println("Base Update");
-  
+
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_t0_11_tf);
+  u8g2.drawStr(0, 8, "MODE:CALI.");
+  u8g2.sendBuffer();
+
   weight_base = 0;
-  for (char j = 0; j < 8; j++) {
+  for (char i = 0; i < 32; i++) {
     HX711_RX();
     weight_base += weight_raw;
+    SerialBT.println(i, DEC);
+    Serial.println(i, DEC);
     delayMicroseconds(300000);
   }
-  weight_base = weight_base >> 3;
-  
+  weight_base = weight_base >> 5;
+
   EEPROM.put(EEPROM_BASE, weight_base);
   EEPROM.commit();
   SerialBT.println("Finished");
