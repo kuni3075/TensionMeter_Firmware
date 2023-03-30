@@ -17,7 +17,7 @@ void BT_RxProcess() {
 }
 
 void FunctionRun() {
-  if (RxBuff[0] == '0')BaseReset();
+  if (RxBuff[0] == '0')BaseResetMode = HX711_BASE_START;
   else if (RxBuff[0] == '1')ProofreadUpdate();
   else if (RxBuff[0] == '2')ModeChange();
   RxCnt = 0;
@@ -28,15 +28,15 @@ void ModeChange() {
   if (RxBuff[2] == '0') {   /* Normalモード(OLEDで測定) */
     run_mode = 0;
     data_mode = NORMAL;
-    FastModeFlag = 0;
-    
+    speed_mode = SLOW;
+
     SerialBT.println("Normal Mode");
     Serial.println("Normal Mode");
   } else if (RxBuff[2] == '1') {  /* Fastモード(衝撃試験用) */
     run_mode = 1;
     data_mode = NORMAL;
-    FastModeFlag = 1;
-    
+    speed_mode = FAST;
+
     SerialBT.println("Fast Mode");
     Serial.println("Fast Mode");
 
@@ -47,12 +47,12 @@ void ModeChange() {
   } else if (RxBuff[2] == '2') {  /* キャリブレーション用 */
     run_mode = 2;
     data_mode = RAW_DATA;
-    FastModeFlag = 0;
-    
+    speed_mode = SLOW;
+
     SerialBT.println("Calibration Mode");
     Serial.println("Calibration Mode");
   } else {
     data_mode = NORMAL;
-    FastModeFlag = 0;
+    speed_mode = SLOW;
   }
 }
